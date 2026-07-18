@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: health-monitor
+  labels:
+    app: health-monitor
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: health-monitor
+  template:
+    metadata:
+      labels:
+        app: health-monitor
+    spec:
+      containers:
+      - name: health-monitor
+        image: <your-dockerhub-username>/region-health-monitor:1
+        ports:
+        - containerPort: 8080
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 8080
+          initialDelaySeconds: 5
+          periodSeconds: 10
+        env:
+        - name: DASHBOARD_DETAIL_LEVEL
+          value: "simple"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: health-monitor-svc
+spec:
+  selector:
+    app: health-monitor
+  ports:
+  - port: 80
+    targetPort: 8080
+  type: NodePort
