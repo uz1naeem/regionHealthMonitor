@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: health-monitor
-        image: <your-dockerhub-username>/region-health-monitor:1
+        image: uz1naeem/region-health-monitor:1
         ports:
         - containerPort: 8080
         readinessProbe:

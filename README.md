@@ -100,5 +100,6 @@ docker run -d -p 8080:8080 --name health-monitor region-health-monitor:1
 dependency scan (pip-audit) → docker build → container scan (Trivy) → push →
 deploy to Kubernetes. See `BUILD_GUIDE.md` for full setup on EC2.
 
-Before use, replace `<your-dockerhub-username>` in `Jenkinsfile` and
-`k8s/deployment.yaml` with your actual registry username.
+The container registry is set to Docker Hub user `uz1naeem` in `Jenkinsfile`
+(`REGISTRY`) and `k8s/deployment.yaml` (`image:`). Update both if you use a
+different registry.

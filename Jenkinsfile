@@ -4,7 +4,7 @@ pipeline {
     environment {
         DOCKER_IMAGE = "region-health-monitor"
         DOCKER_TAG = "${BUILD_NUMBER}"
-        REGISTRY = "<your-dockerhub-username>"
+        REGISTRY = "uz1naeem"
     }
 
     stages {
