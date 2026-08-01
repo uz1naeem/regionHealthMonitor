@@ -57,7 +57,7 @@ pipeline {
             steps {
                 sh '''
                     # Install Trivy if not present
-                    if ! command -v trivy &> /dev/null; then
+                    if ! command -v trivy > /dev/null 2>&1; then
                         curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sudo sh -s -- -b /usr/local/bin
                     fi
                     trivy image --severity HIGH,CRITICAL --exit-code 0 ${REGISTRY}/${DOCKER_IMAGE}:${DOCKER_TAG}
