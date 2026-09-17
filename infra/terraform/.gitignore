@@ -1,0 +1,14 @@
+# Terraform
+**/.terraform/*
+.terraform.tfstate.lock.info
+*.tfstate
+*.tfstate.*
+*.tfplan
+crash.log
+crash.*.log
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# Keep the provider lock file (.terraform.lock.hcl) committed on purpose.

@@ -5,12 +5,51 @@ pipeline {
         DOCKER_IMAGE = "region-health-monitor"
         DOCKER_TAG = "${BUILD_NUMBER}"
         REGISTRY = "uz1naeem"
+        TF_DIR = "infra/terraform/environments/dev"
+        TF_ENV = "dev"
     }
 
     stages {
         stage('Checkout') {
             steps {
                 checkout scm
+            }
+        }
+
+        stage('Terraform Format & Validate') {
+            steps {
+                dir("${TF_DIR}") {
+                    sh 'terraform fmt -check -recursive'
+                    sh 'terraform init -input=false'
+                    sh 'terraform validate'
+                }
+            }
+        }
+
+        stage('Terraform Plan') {
+            steps {
+                dir("${TF_DIR}") {
+                    sh 'terraform plan -input=false -out=tfplan'
+                }
+                archiveArtifacts artifacts: "${TF_DIR}/tfplan", fingerprint: true
+            }
+        }
+
+        stage('Terraform Apply') {
+            when { branch 'main' }
+            steps {
+                dir("${TF_DIR}") {
+                    script {
+                        if (env.TF_ENV == 'dev') {
+                            // Development applies automatically
+                            sh 'terraform apply -input=false -auto-approve tfplan'
+                        } else {
+                            // Staging / production require manual approval of the plan artefact
+                            input message: "Apply Terraform plan to ${TF_ENV}?", ok: 'Apply'
+                            sh 'terraform apply -input=false tfplan'
+                        }
+                    }
+                }
             }
         }
 
