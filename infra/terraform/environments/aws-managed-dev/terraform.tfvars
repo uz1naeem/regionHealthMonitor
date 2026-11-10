@@ -3,5 +3,5 @@ name_prefix           = "rhm-managed-dev"
 repository_owner      = "uz1naeem"
 repository_name       = "regionHealthMonitor"
 branch_name           = "main"
-service_desired_count = 0
+service_desired_count = 1
 log_retention_days    = 30
