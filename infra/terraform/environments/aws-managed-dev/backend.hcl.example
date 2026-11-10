@@ -1,0 +1,5 @@
+bucket         = "REPLACE_WITH_EXISTING_TERRAFORM_STATE_BUCKET"
+key            = "env/aws-managed-dev/terraform.tfstate"
+region         = "eu-west-1"
+dynamodb_table = "REPLACE_WITH_EXISTING_TERRAFORM_LOCK_TABLE"
+encrypt        = true
